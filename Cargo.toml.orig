@@ -1,6 +1,6 @@
 [package]
 name = "regex"
-version = "1.3.7"  #:version
+version = "1.3.9"  #:version
 authors = ["The Rust Project Developers"]
 license = "MIT OR Apache-2.0"
 readme = "README.md"
@@ -118,7 +118,7 @@ optional = true
 # For parsing regular expressions.
 [dependencies.regex-syntax]
 path = "regex-syntax"
-version = "0.6.17"
+version = "0.6.18"
 default-features = false
 
 [dev-dependencies]
@@ -129,7 +129,10 @@ quickcheck = { version = "0.8", default-features = false }
 # For generating random test data.
 rand = "0.6.5"
 # To check README's example
-doc-comment = "0.3"
+# TODO: Re-enable this once the MSRV is 1.43 or greater.
+# See: https://github.com/rust-lang/regex/issues/684
+# See: https://github.com/rust-lang/regex/issues/685
+# doc-comment = "0.3"
 
 # Run the test suite on the default behavior of Regex::new.
 # This includes a mish mash of NFAs and DFAs, which are chosen automatically

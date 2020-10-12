@@ -1,5 +1,5 @@
 name: "regex"
-description: "A Rust library for parsing, compiling, and executing regular expressions. Its syntax is similar to Perl-style regular expressions, but lacks a few features like look around and backreferences. In exchange, all searches execute in linear time with respect to the size of the regular expression and search text. Much of the syntax and implementation is inspired by RE2."
+description: "An implementation of regular expressions for Rust. This implementation uses finite automata and guarantees linear time matching on all inputs."
 third_party {
   url {
     type: HOMEPAGE

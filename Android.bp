@@ -36,6 +36,6 @@ rust_library_host {
 // dependent_library ["feature_list"]
 //   aho-corasick-0.7.14 "default,std"
 //   lazy_static-1.4.0
-//   memchr-2.3.3 "default,std,use_std"
-//   regex-syntax-0.6.20 "default,unicode,unicode-age,unicode-bool,unicode-case,unicode-gencat,unicode-perl,unicode-script,unicode-segment"
+//   memchr-2.3.4 "default,std,use_std"
+//   regex-syntax-0.6.21 "default,unicode,unicode-age,unicode-bool,unicode-case,unicode-gencat,unicode-perl,unicode-script,unicode-segment"
 //   thread_local-1.0.1

@@ -2,6 +2,7 @@
 
 rust_library_host {
     name: "libregex",
+    // has rustc warnings
     crate_name: "regex",
     srcs: ["src/lib.rs"],
     edition: "2015",
@@ -34,8 +35,8 @@ rust_library_host {
 }
 
 // dependent_library ["feature_list"]
-//   aho-corasick-0.7.13 "default,std"
+//   aho-corasick-0.7.15 "default,std"
 //   lazy_static-1.4.0
-//   memchr-2.3.3 "default,std,use_std"
-//   regex-syntax-0.6.18 "default,unicode,unicode-age,unicode-bool,unicode-case,unicode-gencat,unicode-perl,unicode-script,unicode-segment"
-//   thread_local-1.0.1
+//   memchr-2.3.4 "default,std,use_std"
+//   regex-syntax-0.6.22 "default,unicode,unicode-age,unicode-bool,unicode-case,unicode-gencat,unicode-perl,unicode-script,unicode-segment"
+//   thread_local-1.1.0

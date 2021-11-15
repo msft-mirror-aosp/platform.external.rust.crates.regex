@@ -42,6 +42,8 @@ rust_library {
     name: "libregex",
     host_supported: true,
     crate_name: "regex",
+    cargo_env_compat: true,
+    cargo_pkg_version: "1.5.4",
     srcs: ["src/lib.rs"],
     edition: "2018",
     features: [
@@ -74,7 +76,521 @@ rust_library {
     ],
 }
 
-// dependent_library ["feature_list"]
-//   aho-corasick-0.7.18 "default,std"
-//   memchr-2.4.0 "default,std"
-//   regex-syntax-0.6.25 "default,unicode,unicode-age,unicode-bool,unicode-case,unicode-gencat,unicode-perl,unicode-script,unicode-segment"
+rust_defaults {
+    name: "regex_test_defaults",
+    crate_name: "regex",
+    srcs: ["src/lib.rs"],
+    cargo_env_compat: true,
+    cargo_pkg_version: "1.5.4",
+    test_suites: ["general-tests"],
+    auto_gen_config: true,
+    edition: "2018",
+    features: [
+        "aho-corasick",
+        "default",
+        "memchr",
+        "perf",
+        "perf-cache",
+        "perf-dfa",
+        "perf-inline",
+        "perf-literal",
+        "std",
+        "unicode",
+        "unicode-age",
+        "unicode-bool",
+        "unicode-case",
+        "unicode-gencat",
+        "unicode-perl",
+        "unicode-script",
+        "unicode-segment",
+    ],
+    rustlibs: [
+        "libaho_corasick",
+        "liblazy_static",
+        "libmemchr",
+        "libquickcheck",
+        "librand",
+        "libregex_syntax",
+    ],
+}
+
+rust_test_host {
+    name: "regex_host_test_src_lib",
+    defaults: ["regex_test_defaults"],
+    test_options: {
+        unit_test: true,
+    },
+}
+
+rust_test {
+    name: "regex_device_test_src_lib",
+    defaults: ["regex_test_defaults"],
+}
+
+rust_defaults {
+    name: "regex_test_defaults_backtrack",
+    crate_name: "backtrack",
+    srcs: ["tests/test_backtrack.rs"],
+    cargo_env_compat: true,
+    cargo_pkg_version: "1.5.4",
+    test_suites: ["general-tests"],
+    auto_gen_config: true,
+    edition: "2018",
+    features: [
+        "aho-corasick",
+        "default",
+        "memchr",
+        "perf",
+        "perf-cache",
+        "perf-dfa",
+        "perf-inline",
+        "perf-literal",
+        "std",
+        "unicode",
+        "unicode-age",
+        "unicode-bool",
+        "unicode-case",
+        "unicode-gencat",
+        "unicode-perl",
+        "unicode-script",
+        "unicode-segment",
+    ],
+    rustlibs: [
+        "libaho_corasick",
+        "liblazy_static",
+        "libmemchr",
+        "libquickcheck",
+        "librand",
+        "libregex",
+        "libregex_syntax",
+    ],
+}
+
+rust_test_host {
+    name: "regex_host_test_tests_test_backtrack",
+    defaults: ["regex_test_defaults_backtrack"],
+    test_options: {
+        unit_test: true,
+    },
+}
+
+rust_test {
+    name: "regex_device_test_tests_test_backtrack",
+    defaults: ["regex_test_defaults_backtrack"],
+}
+
+rust_defaults {
+    name: "regex_test_defaults_backtrack_bytes",
+    crate_name: "backtrack_bytes",
+    srcs: ["tests/test_backtrack_bytes.rs"],
+    cargo_env_compat: true,
+    cargo_pkg_version: "1.5.4",
+    test_suites: ["general-tests"],
+    auto_gen_config: true,
+    edition: "2018",
+    features: [
+        "aho-corasick",
+        "default",
+        "memchr",
+        "perf",
+        "perf-cache",
+        "perf-dfa",
+        "perf-inline",
+        "perf-literal",
+        "std",
+        "unicode",
+        "unicode-age",
+        "unicode-bool",
+        "unicode-case",
+        "unicode-gencat",
+        "unicode-perl",
+        "unicode-script",
+        "unicode-segment",
+    ],
+    rustlibs: [
+        "libaho_corasick",
+        "liblazy_static",
+        "libmemchr",
+        "libquickcheck",
+        "librand",
+        "libregex",
+        "libregex_syntax",
+    ],
+}
+
+rust_test_host {
+    name: "regex_host_test_tests_test_backtrack_bytes",
+    defaults: ["regex_test_defaults_backtrack_bytes"],
+    test_options: {
+        unit_test: true,
+    },
+}
+
+rust_test {
+    name: "regex_device_test_tests_test_backtrack_bytes",
+    defaults: ["regex_test_defaults_backtrack_bytes"],
+}
+
+rust_defaults {
+    name: "regex_test_defaults_backtrack_utf8bytes",
+    crate_name: "backtrack_utf8bytes",
+    srcs: ["tests/test_backtrack_utf8bytes.rs"],
+    cargo_env_compat: true,
+    cargo_pkg_version: "1.5.4",
+    test_suites: ["general-tests"],
+    auto_gen_config: true,
+    edition: "2018",
+    features: [
+        "aho-corasick",
+        "default",
+        "memchr",
+        "perf",
+        "perf-cache",
+        "perf-dfa",
+        "perf-inline",
+        "perf-literal",
+        "std",
+        "unicode",
+        "unicode-age",
+        "unicode-bool",
+        "unicode-case",
+        "unicode-gencat",
+        "unicode-perl",
+        "unicode-script",
+        "unicode-segment",
+    ],
+    rustlibs: [
+        "libaho_corasick",
+        "liblazy_static",
+        "libmemchr",
+        "libquickcheck",
+        "librand",
+        "libregex",
+        "libregex_syntax",
+    ],
+}
+
+rust_test_host {
+    name: "regex_host_test_tests_test_backtrack_utf8bytes",
+    defaults: ["regex_test_defaults_backtrack_utf8bytes"],
+    test_options: {
+        unit_test: true,
+    },
+}
+
+rust_test {
+    name: "regex_device_test_tests_test_backtrack_utf8bytes",
+    defaults: ["regex_test_defaults_backtrack_utf8bytes"],
+}
+
+rust_defaults {
+    name: "regex_test_defaults_crates_regex",
+    crate_name: "crates_regex",
+    srcs: ["tests/test_crates_regex.rs"],
+    cargo_env_compat: true,
+    cargo_pkg_version: "1.5.4",
+    test_suites: ["general-tests"],
+    auto_gen_config: true,
+    edition: "2018",
+    features: [
+        "aho-corasick",
+        "default",
+        "memchr",
+        "perf",
+        "perf-cache",
+        "perf-dfa",
+        "perf-inline",
+        "perf-literal",
+        "std",
+        "unicode",
+        "unicode-age",
+        "unicode-bool",
+        "unicode-case",
+        "unicode-gencat",
+        "unicode-perl",
+        "unicode-script",
+        "unicode-segment",
+    ],
+    rustlibs: [
+        "libaho_corasick",
+        "liblazy_static",
+        "libmemchr",
+        "libquickcheck",
+        "librand",
+        "libregex",
+        "libregex_syntax",
+    ],
+}
+
+rust_test_host {
+    name: "regex_host_test_tests_test_crates_regex",
+    defaults: ["regex_test_defaults_crates_regex"],
+    test_options: {
+        unit_test: true,
+    },
+}
+
+rust_test {
+    name: "regex_device_test_tests_test_crates_regex",
+    defaults: ["regex_test_defaults_crates_regex"],
+}
+
+rust_defaults {
+    name: "regex_test_defaults_default",
+    crate_name: "default",
+    srcs: ["tests/test_default.rs"],
+    cargo_env_compat: true,
+    cargo_pkg_version: "1.5.4",
+    test_suites: ["general-tests"],
+    auto_gen_config: true,
+    edition: "2018",
+    features: [
+        "aho-corasick",
+        "default",
+        "memchr",
+        "perf",
+        "perf-cache",
+        "perf-dfa",
+        "perf-inline",
+        "perf-literal",
+        "std",
+        "unicode",
+        "unicode-age",
+        "unicode-bool",
+        "unicode-case",
+        "unicode-gencat",
+        "unicode-perl",
+        "unicode-script",
+        "unicode-segment",
+    ],
+    rustlibs: [
+        "libaho_corasick",
+        "liblazy_static",
+        "libmemchr",
+        "libquickcheck",
+        "librand",
+        "libregex",
+        "libregex_syntax",
+    ],
+}
+
+rust_test_host {
+    name: "regex_host_test_tests_test_default",
+    defaults: ["regex_test_defaults_default"],
+    test_options: {
+        unit_test: true,
+    },
+}
+
+rust_test {
+    name: "regex_device_test_tests_test_default",
+    defaults: ["regex_test_defaults_default"],
+}
+
+rust_defaults {
+    name: "regex_test_defaults_default_bytes",
+    crate_name: "default_bytes",
+    srcs: ["tests/test_default_bytes.rs"],
+    cargo_env_compat: true,
+    cargo_pkg_version: "1.5.4",
+    test_suites: ["general-tests"],
+    auto_gen_config: true,
+    edition: "2018",
+    features: [
+        "aho-corasick",
+        "default",
+        "memchr",
+        "perf",
+        "perf-cache",
+        "perf-dfa",
+        "perf-inline",
+        "perf-literal",
+        "std",
+        "unicode",
+        "unicode-age",
+        "unicode-bool",
+        "unicode-case",
+        "unicode-gencat",
+        "unicode-perl",
+        "unicode-script",
+        "unicode-segment",
+    ],
+    rustlibs: [
+        "libaho_corasick",
+        "liblazy_static",
+        "libmemchr",
+        "libquickcheck",
+        "librand",
+        "libregex",
+        "libregex_syntax",
+    ],
+}
+
+rust_test_host {
+    name: "regex_host_test_tests_test_default_bytes",
+    defaults: ["regex_test_defaults_default_bytes"],
+    test_options: {
+        unit_test: true,
+    },
+}
+
+rust_test {
+    name: "regex_device_test_tests_test_default_bytes",
+    defaults: ["regex_test_defaults_default_bytes"],
+}
+
+rust_defaults {
+    name: "regex_test_defaults_nfa",
+    crate_name: "nfa",
+    srcs: ["tests/test_nfa.rs"],
+    cargo_env_compat: true,
+    cargo_pkg_version: "1.5.4",
+    test_suites: ["general-tests"],
+    auto_gen_config: true,
+    edition: "2018",
+    features: [
+        "aho-corasick",
+        "default",
+        "memchr",
+        "perf",
+        "perf-cache",
+        "perf-dfa",
+        "perf-inline",
+        "perf-literal",
+        "std",
+        "unicode",
+        "unicode-age",
+        "unicode-bool",
+        "unicode-case",
+        "unicode-gencat",
+        "unicode-perl",
+        "unicode-script",
+        "unicode-segment",
+    ],
+    rustlibs: [
+        "libaho_corasick",
+        "liblazy_static",
+        "libmemchr",
+        "libquickcheck",
+        "librand",
+        "libregex",
+        "libregex_syntax",
+    ],
+}
+
+rust_test_host {
+    name: "regex_host_test_tests_test_nfa",
+    defaults: ["regex_test_defaults_nfa"],
+    test_options: {
+        unit_test: true,
+    },
+}
+
+rust_test {
+    name: "regex_device_test_tests_test_nfa",
+    defaults: ["regex_test_defaults_nfa"],
+}
+
+rust_defaults {
+    name: "regex_test_defaults_nfa_bytes",
+    crate_name: "nfa_bytes",
+    srcs: ["tests/test_nfa_bytes.rs"],
+    cargo_env_compat: true,
+    cargo_pkg_version: "1.5.4",
+    test_suites: ["general-tests"],
+    auto_gen_config: true,
+    edition: "2018",
+    features: [
+        "aho-corasick",
+        "default",
+        "memchr",
+        "perf",
+        "perf-cache",
+        "perf-dfa",
+        "perf-inline",
+        "perf-literal",
+        "std",
+        "unicode",
+        "unicode-age",
+        "unicode-bool",
+        "unicode-case",
+        "unicode-gencat",
+        "unicode-perl",
+        "unicode-script",
+        "unicode-segment",
+    ],
+    rustlibs: [
+        "libaho_corasick",
+        "liblazy_static",
+        "libmemchr",
+        "libquickcheck",
+        "librand",
+        "libregex",
+        "libregex_syntax",
+    ],
+}
+
+rust_test_host {
+    name: "regex_host_test_tests_test_nfa_bytes",
+    defaults: ["regex_test_defaults_nfa_bytes"],
+    test_options: {
+        unit_test: true,
+    },
+}
+
+rust_test {
+    name: "regex_device_test_tests_test_nfa_bytes",
+    defaults: ["regex_test_defaults_nfa_bytes"],
+}
+
+rust_defaults {
+    name: "regex_test_defaults_nfa_utf8bytes",
+    crate_name: "nfa_utf8bytes",
+    srcs: ["tests/test_nfa_utf8bytes.rs"],
+    cargo_env_compat: true,
+    cargo_pkg_version: "1.5.4",
+    test_suites: ["general-tests"],
+    auto_gen_config: true,
+    edition: "2018",
+    features: [
+        "aho-corasick",
+        "default",
+        "memchr",
+        "perf",
+        "perf-cache",
+        "perf-dfa",
+        "perf-inline",
+        "perf-literal",
+        "std",
+        "unicode",
+        "unicode-age",
+        "unicode-bool",
+        "unicode-case",
+        "unicode-gencat",
+        "unicode-perl",
+        "unicode-script",
+        "unicode-segment",
+    ],
+    rustlibs: [
+        "libaho_corasick",
+        "liblazy_static",
+        "libmemchr",
+        "libquickcheck",
+        "librand",
+        "libregex",
+        "libregex_syntax",
+    ],
+}
+
+rust_test_host {
+    name: "regex_host_test_tests_test_nfa_utf8bytes",
+    defaults: ["regex_test_defaults_nfa_utf8bytes"],
+    test_options: {
+        unit_test: true,
+    },
+}
+
+rust_test {
+    name: "regex_device_test_tests_test_nfa_utf8bytes",
+    defaults: ["regex_test_defaults_nfa_utf8bytes"],
+}

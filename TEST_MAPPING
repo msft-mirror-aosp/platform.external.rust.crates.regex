@@ -23,6 +23,51 @@
       "name": "libsqlite3_bindgen_test"
     },
     {
+      "name": "once_cell_device_test_src_lib"
+    },
+    {
+      "name": "once_cell_device_test_tests_it"
+    },
+    {
+      "name": "regex_device_test_src_lib"
+    },
+    {
+      "name": "regex_device_test_tests_test_backtrack"
+    },
+    {
+      "name": "regex_device_test_tests_test_backtrack_bytes"
+    },
+    {
+      "name": "regex_device_test_tests_test_backtrack_utf8bytes"
+    },
+    {
+      "name": "regex_device_test_tests_test_crates_regex"
+    },
+    {
+      "name": "regex_device_test_tests_test_default"
+    },
+    {
+      "name": "regex_device_test_tests_test_default_bytes"
+    },
+    {
+      "name": "regex_device_test_tests_test_nfa"
+    },
+    {
+      "name": "regex_device_test_tests_test_nfa_bytes"
+    },
+    {
+      "name": "regex_device_test_tests_test_nfa_utf8bytes"
+    },
+    {
+      "name": "tinytemplate_device_test_src_lib"
+    },
+    {
+      "name": "tinyvec_device_test_tests_arrayvec"
+    },
+    {
+      "name": "tinyvec_device_test_tests_tinyvec"
+    },
+    {
       "name": "unicode-xid_device_test_src_lib"
     },
     {

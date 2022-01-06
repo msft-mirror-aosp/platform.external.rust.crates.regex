@@ -72,18 +72,23 @@ rust_library {
     ],
     apex_available: [
         "//apex_available:platform",
+        "com.android.compos",
         "com.android.virt",
     ],
 }
 
-rust_defaults {
-    name: "regex_test_defaults",
+rust_test {
+    name: "regex_test_src_lib",
+    host_supported: true,
     crate_name: "regex",
+    cargo_env_compat: true,
+    cargo_pkg_version: "1.5.4",
     srcs: ["src/lib.rs"],
-    cargo_env_compat: true,
-    cargo_pkg_version: "1.5.4",
     test_suites: ["general-tests"],
     auto_gen_config: true,
+    test_options: {
+        unit_test: true,
+    },
     edition: "2018",
     features: [
         "aho-corasick",
@@ -114,27 +119,18 @@ rust_defaults {
     ],
 }
 
-rust_test_host {
-    name: "regex_host_test_src_lib",
-    defaults: ["regex_test_defaults"],
-    test_options: {
-        unit_test: true,
-    },
-}
-
 rust_test {
-    name: "regex_device_test_src_lib",
-    defaults: ["regex_test_defaults"],
-}
-
-rust_defaults {
-    name: "regex_test_defaults_backtrack",
+    name: "regex_test_tests_test_backtrack",
+    host_supported: true,
     crate_name: "backtrack",
+    cargo_env_compat: true,
+    cargo_pkg_version: "1.5.4",
     srcs: ["tests/test_backtrack.rs"],
-    cargo_env_compat: true,
-    cargo_pkg_version: "1.5.4",
     test_suites: ["general-tests"],
     auto_gen_config: true,
+    test_options: {
+        unit_test: true,
+    },
     edition: "2018",
     features: [
         "aho-corasick",
@@ -166,27 +162,18 @@ rust_defaults {
     ],
 }
 
-rust_test_host {
-    name: "regex_host_test_tests_test_backtrack",
-    defaults: ["regex_test_defaults_backtrack"],
-    test_options: {
-        unit_test: true,
-    },
-}
-
 rust_test {
-    name: "regex_device_test_tests_test_backtrack",
-    defaults: ["regex_test_defaults_backtrack"],
-}
-
-rust_defaults {
-    name: "regex_test_defaults_backtrack_bytes",
+    name: "regex_test_tests_test_backtrack_bytes",
+    host_supported: true,
     crate_name: "backtrack_bytes",
+    cargo_env_compat: true,
+    cargo_pkg_version: "1.5.4",
     srcs: ["tests/test_backtrack_bytes.rs"],
-    cargo_env_compat: true,
-    cargo_pkg_version: "1.5.4",
     test_suites: ["general-tests"],
     auto_gen_config: true,
+    test_options: {
+        unit_test: true,
+    },
     edition: "2018",
     features: [
         "aho-corasick",
@@ -218,27 +205,18 @@ rust_defaults {
     ],
 }
 
-rust_test_host {
-    name: "regex_host_test_tests_test_backtrack_bytes",
-    defaults: ["regex_test_defaults_backtrack_bytes"],
-    test_options: {
-        unit_test: true,
-    },
-}
-
 rust_test {
-    name: "regex_device_test_tests_test_backtrack_bytes",
-    defaults: ["regex_test_defaults_backtrack_bytes"],
-}
-
-rust_defaults {
-    name: "regex_test_defaults_backtrack_utf8bytes",
+    name: "regex_test_tests_test_backtrack_utf8bytes",
+    host_supported: true,
     crate_name: "backtrack_utf8bytes",
+    cargo_env_compat: true,
+    cargo_pkg_version: "1.5.4",
     srcs: ["tests/test_backtrack_utf8bytes.rs"],
-    cargo_env_compat: true,
-    cargo_pkg_version: "1.5.4",
     test_suites: ["general-tests"],
     auto_gen_config: true,
+    test_options: {
+        unit_test: true,
+    },
     edition: "2018",
     features: [
         "aho-corasick",
@@ -270,27 +248,18 @@ rust_defaults {
     ],
 }
 
-rust_test_host {
-    name: "regex_host_test_tests_test_backtrack_utf8bytes",
-    defaults: ["regex_test_defaults_backtrack_utf8bytes"],
-    test_options: {
-        unit_test: true,
-    },
-}
-
 rust_test {
-    name: "regex_device_test_tests_test_backtrack_utf8bytes",
-    defaults: ["regex_test_defaults_backtrack_utf8bytes"],
-}
-
-rust_defaults {
-    name: "regex_test_defaults_crates_regex",
+    name: "regex_test_tests_test_crates_regex",
+    host_supported: true,
     crate_name: "crates_regex",
+    cargo_env_compat: true,
+    cargo_pkg_version: "1.5.4",
     srcs: ["tests/test_crates_regex.rs"],
-    cargo_env_compat: true,
-    cargo_pkg_version: "1.5.4",
     test_suites: ["general-tests"],
     auto_gen_config: true,
+    test_options: {
+        unit_test: true,
+    },
     edition: "2018",
     features: [
         "aho-corasick",
@@ -322,27 +291,18 @@ rust_defaults {
     ],
 }
 
-rust_test_host {
-    name: "regex_host_test_tests_test_crates_regex",
-    defaults: ["regex_test_defaults_crates_regex"],
-    test_options: {
-        unit_test: true,
-    },
-}
-
 rust_test {
-    name: "regex_device_test_tests_test_crates_regex",
-    defaults: ["regex_test_defaults_crates_regex"],
-}
-
-rust_defaults {
-    name: "regex_test_defaults_default",
+    name: "regex_test_tests_test_default",
+    host_supported: true,
     crate_name: "default",
+    cargo_env_compat: true,
+    cargo_pkg_version: "1.5.4",
     srcs: ["tests/test_default.rs"],
-    cargo_env_compat: true,
-    cargo_pkg_version: "1.5.4",
     test_suites: ["general-tests"],
     auto_gen_config: true,
+    test_options: {
+        unit_test: true,
+    },
     edition: "2018",
     features: [
         "aho-corasick",
@@ -374,27 +334,18 @@ rust_defaults {
     ],
 }
 
-rust_test_host {
-    name: "regex_host_test_tests_test_default",
-    defaults: ["regex_test_defaults_default"],
-    test_options: {
-        unit_test: true,
-    },
-}
-
 rust_test {
-    name: "regex_device_test_tests_test_default",
-    defaults: ["regex_test_defaults_default"],
-}
-
-rust_defaults {
-    name: "regex_test_defaults_default_bytes",
+    name: "regex_test_tests_test_default_bytes",
+    host_supported: true,
     crate_name: "default_bytes",
+    cargo_env_compat: true,
+    cargo_pkg_version: "1.5.4",
     srcs: ["tests/test_default_bytes.rs"],
-    cargo_env_compat: true,
-    cargo_pkg_version: "1.5.4",
     test_suites: ["general-tests"],
     auto_gen_config: true,
+    test_options: {
+        unit_test: true,
+    },
     edition: "2018",
     features: [
         "aho-corasick",
@@ -426,27 +377,18 @@ rust_defaults {
     ],
 }
 
-rust_test_host {
-    name: "regex_host_test_tests_test_default_bytes",
-    defaults: ["regex_test_defaults_default_bytes"],
-    test_options: {
-        unit_test: true,
-    },
-}
-
 rust_test {
-    name: "regex_device_test_tests_test_default_bytes",
-    defaults: ["regex_test_defaults_default_bytes"],
-}
-
-rust_defaults {
-    name: "regex_test_defaults_nfa",
+    name: "regex_test_tests_test_nfa",
+    host_supported: true,
     crate_name: "nfa",
+    cargo_env_compat: true,
+    cargo_pkg_version: "1.5.4",
     srcs: ["tests/test_nfa.rs"],
-    cargo_env_compat: true,
-    cargo_pkg_version: "1.5.4",
     test_suites: ["general-tests"],
     auto_gen_config: true,
+    test_options: {
+        unit_test: true,
+    },
     edition: "2018",
     features: [
         "aho-corasick",
@@ -478,27 +420,18 @@ rust_defaults {
     ],
 }
 
-rust_test_host {
-    name: "regex_host_test_tests_test_nfa",
-    defaults: ["regex_test_defaults_nfa"],
-    test_options: {
-        unit_test: true,
-    },
-}
-
 rust_test {
-    name: "regex_device_test_tests_test_nfa",
-    defaults: ["regex_test_defaults_nfa"],
-}
-
-rust_defaults {
-    name: "regex_test_defaults_nfa_bytes",
+    name: "regex_test_tests_test_nfa_bytes",
+    host_supported: true,
     crate_name: "nfa_bytes",
+    cargo_env_compat: true,
+    cargo_pkg_version: "1.5.4",
     srcs: ["tests/test_nfa_bytes.rs"],
-    cargo_env_compat: true,
-    cargo_pkg_version: "1.5.4",
     test_suites: ["general-tests"],
     auto_gen_config: true,
+    test_options: {
+        unit_test: true,
+    },
     edition: "2018",
     features: [
         "aho-corasick",
@@ -530,27 +463,18 @@ rust_defaults {
     ],
 }
 
-rust_test_host {
-    name: "regex_host_test_tests_test_nfa_bytes",
-    defaults: ["regex_test_defaults_nfa_bytes"],
-    test_options: {
-        unit_test: true,
-    },
-}
-
 rust_test {
-    name: "regex_device_test_tests_test_nfa_bytes",
-    defaults: ["regex_test_defaults_nfa_bytes"],
-}
-
-rust_defaults {
-    name: "regex_test_defaults_nfa_utf8bytes",
+    name: "regex_test_tests_test_nfa_utf8bytes",
+    host_supported: true,
     crate_name: "nfa_utf8bytes",
-    srcs: ["tests/test_nfa_utf8bytes.rs"],
     cargo_env_compat: true,
     cargo_pkg_version: "1.5.4",
+    srcs: ["tests/test_nfa_utf8bytes.rs"],
     test_suites: ["general-tests"],
     auto_gen_config: true,
+    test_options: {
+        unit_test: true,
+    },
     edition: "2018",
     features: [
         "aho-corasick",
@@ -580,17 +504,4 @@ rust_defaults {
         "libregex",
         "libregex_syntax",
     ],
-}
-
-rust_test_host {
-    name: "regex_host_test_tests_test_nfa_utf8bytes",
-    defaults: ["regex_test_defaults_nfa_utf8bytes"],
-    test_options: {
-        unit_test: true,
-    },
-}
-
-rust_test {
-    name: "regex_device_test_tests_test_nfa_utf8bytes",
-    defaults: ["regex_test_defaults_nfa_utf8bytes"],
 }

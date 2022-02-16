@@ -4,16 +4,16 @@ use std::iter;
 use std::result;
 use std::sync::Arc;
 
-use regex_syntax::hir::{self, Hir};
-use regex_syntax::is_word_byte;
-use regex_syntax::utf8::{Utf8Range, Utf8Sequence, Utf8Sequences};
+use syntax::hir::{self, Hir};
+use syntax::is_word_byte;
+use syntax::utf8::{Utf8Range, Utf8Sequence, Utf8Sequences};
 
-use crate::prog::{
+use prog::{
     EmptyLook, Inst, InstBytes, InstChar, InstEmptyLook, InstPtr, InstRanges,
     InstSave, InstSplit, Program,
 };
 
-use crate::Error;
+use Error;
 
 type Result = result::Result<Patch, Error>;
 type ResultOrEmpty = result::Result<Option<Patch>, Error>;
@@ -38,7 +38,6 @@ pub struct Compiler {
     suffix_cache: SuffixCache,
     utf8_seqs: Option<Utf8Sequences>,
     byte_classes: ByteClassSet,
-    extra_inst_bytes: usize,
 }
 
 impl Compiler {
@@ -55,7 +54,6 @@ impl Compiler {
             suffix_cache: SuffixCache::new(1000),
             utf8_seqs: Some(Utf8Sequences::new('\x00', '\x00')),
             byte_classes: ByteClassSet::new(),
-            extra_inst_bytes: 0,
         }
     }
 
@@ -255,8 +253,8 @@ impl Compiler {
     /// Ok(None) is returned when an expression is compiled to no
     /// instruction, and so no patch.entry value makes sense.
     fn c(&mut self, expr: &Hir) -> ResultOrEmpty {
-        use crate::prog;
-        use regex_syntax::hir::HirKind::*;
+        use prog;
+        use syntax::hir::HirKind::*;
 
         self.check_size()?;
         match *expr.kind() {
@@ -318,13 +316,6 @@ impl Compiler {
                 }
                 self.compiled.has_unicode_word_boundary = true;
                 self.byte_classes.set_word_boundary();
-                // We also make sure that all ASCII bytes are in a different
-                // class from non-ASCII bytes. Otherwise, it's possible for
-                // ASCII bytes to get lumped into the same class as non-ASCII
-                // bytes. This in turn may cause the lazy DFA to falsely start
-                // when it sees an ASCII byte that maps to a byte class with
-                // non-ASCII bytes. This ensures that never happens.
-                self.byte_classes.set_range(0, 0x7F);
                 self.c_empty_look(prog::EmptyLook::WordBoundary)
             }
             WordBoundary(hir::WordBoundary::UnicodeNegate) => {
@@ -337,8 +328,6 @@ impl Compiler {
                 }
                 self.compiled.has_unicode_word_boundary = true;
                 self.byte_classes.set_word_boundary();
-                // See comments above for why we set the ASCII range here.
-                self.byte_classes.set_range(0, 0x7F);
                 self.c_empty_look(prog::EmptyLook::NotWordBoundary)
             }
             WordBoundary(hir::WordBoundary::Ascii) => {
@@ -431,8 +420,6 @@ impl Compiler {
     }
 
     fn c_class(&mut self, ranges: &[hir::ClassUnicodeRange]) -> ResultOrEmpty {
-        use std::mem::size_of;
-
         assert!(!ranges.is_empty());
         if self.compiled.uses_bytes() {
             Ok(Some(CompileClass { c: self, ranges: ranges }.compile()?))
@@ -442,8 +429,6 @@ impl Compiler {
             let hole = if ranges.len() == 1 && ranges[0].0 == ranges[0].1 {
                 self.push_hole(InstHole::Char { c: ranges[0].0 })
             } else {
-                self.extra_inst_bytes +=
-                    ranges.len() * (size_of::<char>() * 2);
                 self.push_hole(InstHole::Ranges { ranges: ranges })
             };
             Ok(Some(Patch { hole: hole, entry: self.insts.len() - 1 }))
@@ -563,7 +548,7 @@ impl Compiler {
     }
 
     fn c_repeat(&mut self, rep: &hir::Repetition) -> ResultOrEmpty {
-        use regex_syntax::hir::RepetitionKind::*;
+        use syntax::hir::RepetitionKind::*;
         match rep.kind {
             ZeroOrOne => self.c_repeat_zero_or_one(&rep.hir, rep.greedy),
             ZeroOrMore => self.c_repeat_zero_or_more(&rep.hir, rep.greedy),
@@ -810,9 +795,7 @@ impl Compiler {
     fn check_size(&self) -> result::Result<(), Error> {
         use std::mem::size_of;
 
-        let size =
-            self.extra_inst_bytes + (self.insts.len() * size_of::<Inst>());
-        if size > self.size_limit {
+        if self.insts.len() * size_of::<Inst>() > self.size_limit {
             Err(Error::CompiledTooBig(self.size_limit))
         } else {
             Ok(())
@@ -944,10 +927,9 @@ impl InstHole {
                 Inst::EmptyLook(InstEmptyLook { goto: goto, look: look })
             }
             InstHole::Char { c } => Inst::Char(InstChar { goto: goto, c: c }),
-            InstHole::Ranges { ref ranges } => Inst::Ranges(InstRanges {
-                goto: goto,
-                ranges: ranges.clone().into_boxed_slice(),
-            }),
+            InstHole::Ranges { ref ranges } => {
+                Inst::Ranges(InstRanges { goto: goto, ranges: ranges.clone() })
+            }
             InstHole::Bytes { start, end } => {
                 Inst::Bytes(InstBytes { goto: goto, start: start, end: end })
             }

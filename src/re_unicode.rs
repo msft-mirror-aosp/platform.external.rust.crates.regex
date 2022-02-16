@@ -6,20 +6,21 @@ use std::ops::{Index, Range};
 use std::str::FromStr;
 use std::sync::Arc;
 
-use crate::find_byte::find_byte;
+use find_byte::find_byte;
+use syntax;
 
-use crate::error::Error;
-use crate::exec::{Exec, ExecNoSyncStr};
-use crate::expand::expand_str;
-use crate::re_builder::unicode::RegexBuilder;
-use crate::re_trait::{self, RegularExpression, SubCapturesPosIter};
+use error::Error;
+use exec::{Exec, ExecNoSyncStr};
+use expand::expand_str;
+use re_builder::unicode::RegexBuilder;
+use re_trait::{self, RegularExpression, SubCapturesPosIter};
 
 /// Escapes all regular expression meta characters in `text`.
 ///
 /// The string returned may be safely used as a literal in a regular
 /// expression.
 pub fn escape(text: &str) -> String {
-    regex_syntax::escape(text)
+    syntax::escape(text)
 }
 
 /// Match represents a single match of a regex in a haystack.
@@ -137,14 +138,14 @@ pub struct Regex(Exec);
 
 impl fmt::Display for Regex {
     /// Shows the original regular expression.
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{}", self.as_str())
     }
 }
 
 impl fmt::Debug for Regex {
     /// Shows the original regular expression.
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         fmt::Display::fmt(self, f)
     }
 }
@@ -188,7 +189,7 @@ impl Regex {
     /// Unicode word characters:
     ///
     /// ```rust
-    /// # use regex::Regex;
+    /// # extern crate regex; use regex::Regex;
     /// # fn main() {
     /// let text = "I categorically deny having triskaidekaphobia.";
     /// assert!(Regex::new(r"\b\w{13}\b").unwrap().is_match(text));
@@ -211,7 +212,7 @@ impl Regex {
     /// Unicode word characters:
     ///
     /// ```rust
-    /// # use regex::Regex;
+    /// # extern crate regex; use regex::Regex;
     /// # fn main() {
     /// let text = "I categorically deny having triskaidekaphobia.";
     /// let mat = Regex::new(r"\b\w{13}\b").unwrap().find(text).unwrap();
@@ -233,7 +234,7 @@ impl Regex {
     /// word characters:
     ///
     /// ```rust
-    /// # use regex::Regex;
+    /// # extern crate regex; use regex::Regex;
     /// # fn main() {
     /// let text = "Retroactively relinquishing remunerations is reprehensible.";
     /// for mat in Regex::new(r"\b\w{13}\b").unwrap().find_iter(text) {
@@ -261,7 +262,7 @@ impl Regex {
     /// year separately.
     ///
     /// ```rust
-    /// # use regex::Regex;
+    /// # extern crate regex; use regex::Regex;
     /// # fn main() {
     /// let re = Regex::new(r"'([^']+)'\s+\((\d{4})\)").unwrap();
     /// let text = "Not my favorite movie: 'Citizen Kane' (1941).";
@@ -283,7 +284,7 @@ impl Regex {
     /// We can make this example a bit clearer by using *named* capture groups:
     ///
     /// ```rust
-    /// # use regex::Regex;
+    /// # extern crate regex; use regex::Regex;
     /// # fn main() {
     /// let re = Regex::new(r"'(?P<title>[^']+)'\s+\((?P<year>\d{4})\)")
     ///                .unwrap();
@@ -327,7 +328,7 @@ impl Regex {
     /// some text, where the movie is formatted like "'Title' (xxxx)":
     ///
     /// ```rust
-    /// # use regex::Regex;
+    /// # extern crate regex; use regex::Regex;
     /// # fn main() {
     /// let re = Regex::new(r"'(?P<title>[^']+)'\s+\((?P<year>\d{4})\)")
     ///                .unwrap();
@@ -360,7 +361,7 @@ impl Regex {
     /// To split a string delimited by arbitrary amounts of spaces or tabs:
     ///
     /// ```rust
-    /// # use regex::Regex;
+    /// # extern crate regex; use regex::Regex;
     /// # fn main() {
     /// let re = Regex::new(r"[ \t]+").unwrap();
     /// let fields: Vec<&str> = re.split("a b \t  c\td    e").collect();
@@ -384,7 +385,7 @@ impl Regex {
     /// Get the first two words in some text:
     ///
     /// ```rust
-    /// # use regex::Regex;
+    /// # extern crate regex; use regex::Regex;
     /// # fn main() {
     /// let re = Regex::new(r"\W+").unwrap();
     /// let fields: Vec<&str> = re.splitn("Hey! How are you?", 3).collect();
@@ -431,7 +432,7 @@ impl Regex {
     /// In typical usage, this can just be a normal string:
     ///
     /// ```rust
-    /// # use regex::Regex;
+    /// # extern crate regex; use regex::Regex;
     /// # fn main() {
     /// let re = Regex::new("[^01]+").unwrap();
     /// assert_eq!(re.replace("1078910", ""), "1010");
@@ -444,7 +445,7 @@ impl Regex {
     /// capturing group matches easily:
     ///
     /// ```rust
-    /// # use regex::Regex;
+    /// # extern crate regex; use regex::Regex;
     /// # use regex::Captures; fn main() {
     /// let re = Regex::new(r"([^,\s]+),\s+(\S+)").unwrap();
     /// let result = re.replace("Springsteen, Bruce", |caps: &Captures| {
@@ -460,7 +461,7 @@ impl Regex {
     /// with named capture groups:
     ///
     /// ```rust
-    /// # use regex::Regex;
+    /// # extern crate regex; use regex::Regex;
     /// # fn main() {
     /// let re = Regex::new(r"(?P<last>[^,\s]+),\s+(?P<first>\S+)").unwrap();
     /// let result = re.replace("Springsteen, Bruce", "$first $last");
@@ -477,7 +478,7 @@ impl Regex {
     /// underscore:
     ///
     /// ```rust
-    /// # use regex::Regex;
+    /// # extern crate regex; use regex::Regex;
     /// # fn main() {
     /// let re = Regex::new(r"(?P<first>\w+)\s+(?P<second>\w+)").unwrap();
     /// let result = re.replace("deep fried", "${first}_$second");
@@ -494,7 +495,7 @@ impl Regex {
     /// byte string with `NoExpand`:
     ///
     /// ```rust
-    /// # use regex::Regex;
+    /// # extern crate regex; use regex::Regex;
     /// # fn main() {
     /// use regex::NoExpand;
     ///
@@ -604,7 +605,7 @@ impl Regex {
     /// `a`.
     ///
     /// ```rust
-    /// # use regex::Regex;
+    /// # extern crate regex; use regex::Regex;
     /// # fn main() {
     /// let text = "aaaaa";
     /// let pos = Regex::new(r"a+").unwrap().shortest_match(text);
@@ -716,7 +717,7 @@ impl Regex {
     }
 
     /// Returns an iterator over the capture names.
-    pub fn capture_names(&self) -> CaptureNames<'_> {
+    pub fn capture_names(&self) -> CaptureNames {
         CaptureNames(self.0.capture_names().iter())
     }
 
@@ -1000,15 +1001,15 @@ impl<'t> Captures<'t> {
 }
 
 impl<'t> fmt::Debug for Captures<'t> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         f.debug_tuple("Captures").field(&CapturesDebug(self)).finish()
     }
 }
 
-struct CapturesDebug<'c, 't>(&'c Captures<'t>);
+struct CapturesDebug<'c, 't: 'c>(&'c Captures<'t>);
 
 impl<'c, 't> fmt::Debug for CapturesDebug<'c, 't> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         // We'd like to show something nice here, even if it means an
         // allocation to build a reverse index.
         let slot_to_name: HashMap<&usize, &String> =
@@ -1079,7 +1080,7 @@ impl<'t, 'i> Index<&'i str> for Captures<'t> {
 /// The lifetime `'c` corresponds to the lifetime of the `Captures` value, and
 /// the lifetime `'t` corresponds to the originally matched text.
 #[derive(Clone, Debug)]
-pub struct SubCaptureMatches<'c, 't> {
+pub struct SubCaptureMatches<'c, 't: 'c> {
     caps: &'c Captures<'t>,
     it: SubCapturesPosIter<'c>,
 }
@@ -1157,7 +1158,7 @@ pub trait Replacer {
     ///
     /// For example, a no-op replacement would be
     /// `dst.push_str(caps.get(0).unwrap().as_str())`.
-    fn replace_append(&mut self, caps: &Captures<'_>, dst: &mut String);
+    fn replace_append(&mut self, caps: &Captures, dst: &mut String);
 
     /// Return a fixed unchanging replacement string.
     ///
@@ -1200,68 +1201,68 @@ pub trait Replacer {
 ///
 /// Returned by [`Replacer::by_ref`](trait.Replacer.html#method.by_ref).
 #[derive(Debug)]
-pub struct ReplacerRef<'a, R: ?Sized>(&'a mut R);
+pub struct ReplacerRef<'a, R: ?Sized + 'a>(&'a mut R);
 
 impl<'a, R: Replacer + ?Sized + 'a> Replacer for ReplacerRef<'a, R> {
-    fn replace_append(&mut self, caps: &Captures<'_>, dst: &mut String) {
+    fn replace_append(&mut self, caps: &Captures, dst: &mut String) {
         self.0.replace_append(caps, dst)
     }
-    fn no_expansion(&mut self) -> Option<Cow<'_, str>> {
+    fn no_expansion(&mut self) -> Option<Cow<str>> {
         self.0.no_expansion()
     }
 }
 
 impl<'a> Replacer for &'a str {
-    fn replace_append(&mut self, caps: &Captures<'_>, dst: &mut String) {
+    fn replace_append(&mut self, caps: &Captures, dst: &mut String) {
         caps.expand(*self, dst);
     }
 
-    fn no_expansion(&mut self) -> Option<Cow<'_, str>> {
+    fn no_expansion(&mut self) -> Option<Cow<str>> {
         no_expansion(self)
     }
 }
 
 impl<'a> Replacer for &'a String {
-    fn replace_append(&mut self, caps: &Captures<'_>, dst: &mut String) {
+    fn replace_append(&mut self, caps: &Captures, dst: &mut String) {
         self.as_str().replace_append(caps, dst)
     }
 
-    fn no_expansion(&mut self) -> Option<Cow<'_, str>> {
+    fn no_expansion(&mut self) -> Option<Cow<str>> {
         no_expansion(self)
     }
 }
 
 impl Replacer for String {
-    fn replace_append(&mut self, caps: &Captures<'_>, dst: &mut String) {
+    fn replace_append(&mut self, caps: &Captures, dst: &mut String) {
         self.as_str().replace_append(caps, dst)
     }
 
-    fn no_expansion(&mut self) -> Option<Cow<'_, str>> {
+    fn no_expansion(&mut self) -> Option<Cow<str>> {
         no_expansion(self)
     }
 }
 
 impl<'a> Replacer for Cow<'a, str> {
-    fn replace_append(&mut self, caps: &Captures<'_>, dst: &mut String) {
+    fn replace_append(&mut self, caps: &Captures, dst: &mut String) {
         self.as_ref().replace_append(caps, dst)
     }
 
-    fn no_expansion(&mut self) -> Option<Cow<'_, str>> {
+    fn no_expansion(&mut self) -> Option<Cow<str>> {
         no_expansion(self)
     }
 }
 
 impl<'a> Replacer for &'a Cow<'a, str> {
-    fn replace_append(&mut self, caps: &Captures<'_>, dst: &mut String) {
+    fn replace_append(&mut self, caps: &Captures, dst: &mut String) {
         self.as_ref().replace_append(caps, dst)
     }
 
-    fn no_expansion(&mut self) -> Option<Cow<'_, str>> {
+    fn no_expansion(&mut self) -> Option<Cow<str>> {
         no_expansion(self)
     }
 }
 
-fn no_expansion<T: AsRef<str>>(t: &T) -> Option<Cow<'_, str>> {
+fn no_expansion<T: AsRef<str>>(t: &T) -> Option<Cow<str>> {
     let s = t.as_ref();
     match find_byte(b'$', s.as_bytes()) {
         Some(_) => None,
@@ -1271,10 +1272,10 @@ fn no_expansion<T: AsRef<str>>(t: &T) -> Option<Cow<'_, str>> {
 
 impl<F, T> Replacer for F
 where
-    F: FnMut(&Captures<'_>) -> T,
+    F: FnMut(&Captures) -> T,
     T: AsRef<str>,
 {
-    fn replace_append(&mut self, caps: &Captures<'_>, dst: &mut String) {
+    fn replace_append(&mut self, caps: &Captures, dst: &mut String) {
         dst.push_str((*self)(caps).as_ref());
     }
 }
@@ -1291,11 +1292,11 @@ where
 pub struct NoExpand<'t>(pub &'t str);
 
 impl<'t> Replacer for NoExpand<'t> {
-    fn replace_append(&mut self, _: &Captures<'_>, dst: &mut String) {
+    fn replace_append(&mut self, _: &Captures, dst: &mut String) {
         dst.push_str(self.0);
     }
 
-    fn no_expansion(&mut self) -> Option<Cow<'_, str>> {
+    fn no_expansion(&mut self) -> Option<Cow<str>> {
         Some(Cow::Borrowed(self.0))
     }
 }

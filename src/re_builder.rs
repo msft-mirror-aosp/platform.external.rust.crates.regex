@@ -37,10 +37,10 @@ macro_rules! define_builder {
     ($name:ident, $regex_mod:ident, $only_utf8:expr) => {
         pub mod $name {
             use super::RegexOptions;
-            use crate::error::Error;
-            use crate::exec::ExecBuilder;
+            use error::Error;
+            use exec::ExecBuilder;
 
-            use crate::$regex_mod::Regex;
+            use $regex_mod::Regex;
 
             /// A configurable builder for a regular expression.
             ///
@@ -235,10 +235,10 @@ macro_rules! define_set_builder {
     ($name:ident, $regex_mod:ident, $only_utf8:expr) => {
         pub mod $name {
             use super::RegexOptions;
-            use crate::error::Error;
-            use crate::exec::ExecBuilder;
+            use error::Error;
+            use exec::ExecBuilder;
 
-            use crate::re_set::$regex_mod::RegexSet;
+            use re_set::$regex_mod::RegexSet;
 
             /// A configurable builder for a set of regular expressions.
             ///

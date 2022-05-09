@@ -56,6 +56,9 @@
     },
     {
       "name": "regex_test_tests_test_nfa_utf8bytes"
+    },
+    {
+      "name": "virtualizationservice_device_test"
     }
   ],
   "presubmit-rust": [
@@ -94,6 +97,9 @@
     },
     {
       "name": "regex_test_tests_test_nfa_utf8bytes"
+    },
+    {
+      "name": "virtualizationservice_device_test"
     }
   ]
 }

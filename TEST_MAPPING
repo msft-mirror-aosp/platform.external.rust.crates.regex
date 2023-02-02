@@ -21,22 +21,22 @@
     },
     {
       "path": "external/rust/crates/unicode-xid"
+    },
+    {
+      "path": "packages/modules/Virtualization/virtualizationmanager"
+    },
+    {
+      "path": "system/keymint/hal"
+    },
+    {
+      "path": "system/security/keystore2"
+    },
+    {
+      "path": "system/security/keystore2/legacykeystore"
     }
   ],
   "presubmit": [
     {
-      "name": "keystore2_legacy_blobs_test"
-    },
-    {
-      "name": "keystore2_test"
-    },
-    {
-      "name": "legacykeystore_test"
-    },
-    {
-      "name": "libkmr_hal_test"
-    },
-    {
       "name": "regex_test_src_lib"
     },
     {
@@ -65,25 +65,10 @@
     },
     {
       "name": "regex_test_tests_test_nfa_utf8bytes"
-    },
-    {
-      "name": "virtualizationmanager_device_test"
     }
   ],
   "presubmit-rust": [
     {
-      "name": "keystore2_legacy_blobs_test"
-    },
-    {
-      "name": "keystore2_test"
-    },
-    {
-      "name": "legacykeystore_test"
-    },
-    {
-      "name": "libkmr_hal_test"
-    },
-    {
       "name": "regex_test_src_lib"
     },
     {
@@ -112,9 +97,6 @@
     },
     {
       "name": "regex_test_tests_test_nfa_utf8bytes"
-    },
-    {
-      "name": "virtualizationmanager_device_test"
     }
   ]
 }

@@ -71,9 +71,8 @@ rust_library {
         "libregex_syntax",
     ],
     apex_available: [
+        "//apex_available:anyapex",
         "//apex_available:platform",
-        "com.android.compos",
-        "com.android.virt",
     ],
     product_available: true,
     vendor_available: true,

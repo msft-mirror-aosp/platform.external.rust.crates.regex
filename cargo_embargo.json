@@ -1,8 +1,0 @@
-{
-  "apex_available": [
-    "//apex_available:anyapex",
-    "//apex_available:platform"
-  ],
-  "run_cargo": false,
-  "tests": true
-}
